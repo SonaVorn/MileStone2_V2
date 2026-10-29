@@ -1,0 +1,87 @@
+/* Fonts */
+@font-face {
+  font-family: "Amarante";
+  src: url("../fonts/Amarante-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+/* Base */
+:root {
+  --ocean-deep: #021b2b;
+  --game-ratio: 8 / 5; /* matches the 800 x 500 game canvas */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: var(--ocean-deep);
+  overscroll-behavior: none; /* stops pull-to-refresh while playing on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Centre the game in any window size */
+#game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/*
+  The game always runs at 800 x 500 internally. CSS scales the canvas to the
+  largest size that fits the screen while keeping the aspect ratio, so
+  collisions and movement behave the same on every device.
+*/
+canvas {
+  display: block;
+  width: min(100vw, 160vh) !important;   /* fallback for older browsers */
+  width: min(100vw, 160dvh) !important;  /* 160 = 100 * (8 / 5) */
+  height: auto !important;
+  aspect-ratio: var(--game-ratio);
+  touch-action: none;       /* lets touch controls work without scrolling the page */
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+  animation: fade-in 0.6s ease-out both;
+}
+
+/* Loading text (removed by sketch.js once the game is ready) */
+#loading {
+  margin: 0;
+  color: #fff;
+  font-family: "Amarante", Georgia, serif;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 1; }
+}
+
+/* Respect people who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  canvas,
+  #loading {
+    animation: none;
+  }
+}
