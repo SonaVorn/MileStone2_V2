@@ -1,4 +1,4 @@
-# Dive and Collect
+# Grab & Dash
 
 ## About the Project
 Dive and Collect is a small game I developed as part of a school assignment during class.
